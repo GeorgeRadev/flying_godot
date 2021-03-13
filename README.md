@@ -8,6 +8,6 @@ Simple GODOT game for two players with Paw Patrol Theme
 - 2nd playeris using arrows
 - Use **~** for entering Side-by-Side 3D monitor mode for 3D capable displays
 
-![screenshot](https://github.com/GeorgeRadev/flying_godot/blob/master/flying_screenshot.png?raw=true)
+![screenshot](https://github.com/GeorgeRadev/flying_godot/blob/main/flying_screenshot.png?raw=true)
 
 - Happy flying
