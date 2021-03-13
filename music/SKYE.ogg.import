@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SKYE.ogg-723be024a2a6e9957c6bcb3fc987f4df.oggstr"
+
+[deps]
+
+source_file="res://music/SKYE.ogg"
+dest_files=[ "res://.import/SKYE.ogg-723be024a2a6e9957c6bcb3fc987f4df.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
