@@ -40,6 +40,7 @@ var angleMARSHALy:float = 0
 var angleMARSHALz:float = 0
 
 var bonesCounter:int = 0
+var levelThreshold:int = 100
 var bonesSKYE:int = 0
 var bonesMARSHAL:int = 0
 
@@ -73,8 +74,9 @@ func _ready():
 	updateText()
 	reset()
 	resize()
-	
+
 func reset():
+	scrollSpeed = Vector3(0,0,6)
 	level1()
 	positionSKYE = 1
 	positionMARSHAL = -1
@@ -86,7 +88,7 @@ func reset():
 	xObjects.clear()
 	delete_children(SCENE)
 	updateText()
-	
+
 func updateText():
 	countSKYE.text = "SKYE: " + str(bonesSKYE)
 	countMARSHAL.text = "MARSHAL: " + str(bonesMARSHAL)
@@ -97,19 +99,37 @@ func level1():
 	popRate = 1.0
 	setLevelText("LEVEL 1")
 	positionGenerator = funcref(self, "fiveByTwo")
-	
+
 func level2():
 	boneChance = 0.2
 	popRate = 0.8
 	setLevelText("LEVEL 2")
 	positionGenerator = funcref(self, "randomIntPos")
-	
+
 func level3():
 	boneChance = 0.2
 	popRate = 0.4
 	setLevelText("LEVEL 3")
 	positionGenerator = funcref(self, "randomFloatPos")
-	
+
+var lastLevel:int = -1
+func setLevel(level:int):
+	if lastLevel == level : return
+	setLevelText("LEVEL " + str(level+1))
+	lastLevel = level
+	if level == 0:
+		level1()
+		return
+	# increase the speed
+	scrollSpeed += Vector3(0,0,0.1)
+	#increase pop rate
+	popRate *= 0.9
+	#switch variation
+	var variation: int = level % 3
+	if   variation == 0: positionGenerator = funcref(self, "fiveByTwo")
+	elif variation == 1: positionGenerator = funcref(self, "randomIntPos")
+	elif variation == 2: positionGenerator = funcref(self, "randomFloatPos")
+
 var fiveByTwoCounter = 0
 func fiveByTwo():
 	var rem: int = int(fiveByTwoCounter / 5)
@@ -178,6 +198,11 @@ func _input(_ev):
 		level3()
 	if Input.is_key_pressed(KEY_R):
 		reset()
+	if Input.is_key_pressed(KEY_EQUAL):
+		scrollSpeed += Vector3(0,0,0.1)
+	if Input.is_key_pressed(KEY_MINUS):
+		if scrollSpeed.z > 2:
+			scrollSpeed -= Vector3(0,0,0.1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -194,14 +219,11 @@ func _process(delta):
 	cleanupInvisibleObjects(cloudObjects, -8.0)
 	
 	# shift levels
-	if bonesCounter == 100:
-		level2()
-	if bonesCounter == 200:
-		level3()
-	if bonesCounter == 300:
-		level1()
-		bonesCounter = 0
-	
+	if bonesCounter > 0 and bonesCounter % levelThreshold == 0:
+		setLevel(bonesCounter / levelThreshold )
+	# if bonesCounter == 100: level2()
+	# if bonesCounter == 200: level3()
+	# if bonesCounter == 300: level1() scrollSpeed += Vector3(0,0,0.1)
 	
 func movementAndInertial(delta):
 	# flaten the object when inactive fast and slow
@@ -277,10 +299,11 @@ func checkColisions():
 			bonesCounter += 1
 			# play coin 
 			audioBone.play()
-			if skyWin < marshalWin: 
+			# using that NaN is false for all operations, except NaN != NaN
+			if skyWin <= marshalWin or marshalWin != marshalWin: 
 				bonesSKYE += 1
 				angleSKYEx = 8
-			if marshalWin< skyWin: 
+			if marshalWin < skyWin or skyWin != skyWin: 
 				bonesMARSHAL += 1
 				angleMARSHALx = 8
 			updateText()
@@ -294,10 +317,10 @@ func checkColisions():
 			xObjects.remove(ix)
 			# play boom
 			audioX.play()
-			if skyLose < marshalLose: 
+			if skyLose < marshalLose or marshalLose != marshalLose:  
 				bonesSKYE -= 10
 				angleSKYEy = 8
-			if marshalLose < skyLose: 
+			if marshalLose < skyLose or skyLose != skyLose:  
 				bonesMARSHAL -= 10
 				angleMARSHALy = 8
 			updateText()
@@ -322,7 +345,7 @@ func generateObjects(delta):
 	
 	#add clouds
 	cloudRate += delta
-	if cloudRate > 3.7:
+	if cloudRate > 2.7:
 		cloudRate = 0
 		createCloud(60)
 
