@@ -124,6 +124,8 @@ func setLevel(level:int):
 	scrollSpeed += Vector3(0,0,0.1)
 	#increase pop rate
 	popRate *= 0.9
+	#increase bomb rate
+	boneChance +=0.1
 	#switch variation
 	var variation: int = level % 3
 	if   variation == 0: positionGenerator = funcref(self, "fiveByTwo")
@@ -220,6 +222,8 @@ func _process(delta):
 	
 	# shift levels
 	if bonesCounter > 0 and bonesCounter % levelThreshold == 0:
+		# integer division is intentional
+# warning-ignore:integer_division
 		setLevel(bonesCounter / levelThreshold )
 	# if bonesCounter == 100: level2()
 	# if bonesCounter == 200: level3()
