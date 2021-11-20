@@ -1,17 +1,17 @@
 [gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Flying.gd" type="Script" id=1]
-[ext_resource path="res://cloud.glb" type="PackedScene" id=2]
-[ext_resource path="res://X.glb" type="PackedScene" id=3]
-[ext_resource path="res://bone.glb" type="PackedScene" id=4]
-[ext_resource path="res://Dogs/SKYE.gltf" type="PackedScene" id=5]
-[ext_resource path="res://Dogs/MARSHAL.gltf" type="PackedScene" id=6]
+[ext_resource path="res://Dogs/SKYE.gltf" type="PackedScene" id=2]
+[ext_resource path="res://Dogs/MARSHAL.gltf" type="PackedScene" id=3]
+[ext_resource path="res://X.glb" type="PackedScene" id=4]
+[ext_resource path="res://bone.glb" type="PackedScene" id=5]
+[ext_resource path="res://cloud.glb" type="PackedScene" id=6]
 [ext_resource path="res://music/PAW_Patrol_Theme.ogg" type="AudioStream" id=7]
-[ext_resource path="res://music/bone.ogg" type="AudioStream" id=8]
-[ext_resource path="res://music/SKYE.ogg" type="AudioStream" id=9]
-[ext_resource path="res://music/MARSHAL.ogg" type="AudioStream" id=10]
-[ext_resource path="res://fonts/alphakind/Alphakind.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://music/X.ogg" type="AudioStream" id=12]
+[ext_resource path="res://music/SKYE.ogg" type="AudioStream" id=8]
+[ext_resource path="res://music/MARSHAL.ogg" type="AudioStream" id=9]
+[ext_resource path="res://music/bone.ogg" type="AudioStream" id=10]
+[ext_resource path="res://music/X.ogg" type="AudioStream" id=11]
+[ext_resource path="res://fonts/alphakind/Alphakind.ttf" type="DynamicFontData" id=12]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.466667, 0.466667, 0.466667, 1 )
@@ -40,7 +40,7 @@ font_data = SubResource( 4 )
 size = 30
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
 [node name="World" type="Spatial"]
 script = ExtResource( 1 )
@@ -62,6 +62,7 @@ render_target_update_mode = 3
 
 [node name="CameraL" type="Camera" parent="ViewportContainerL/ViewportL"]
 transform = Transform( -1, 1.47929e-07, -2.90327e-07, 0, 0.891006, 0.45399, 3.25841e-07, 0.45399, -0.891006, 0, 2, -3 )
+current = true
 
 [node name="ViewportContainerR" type="ViewportContainer" parent="."]
 margin_left = 222.0
@@ -80,6 +81,7 @@ render_target_update_mode = 3
 
 [node name="CameraR" type="Camera" parent="ViewportContainerR/ViewportR"]
 transform = Transform( -1, 1.47929e-07, -2.90327e-07, 0, 0.891006, 0.45399, 3.25841e-07, 0.45399, -0.891006, 0, 2, -3 )
+current = true
 
 [node name="SCENE" type="Spatial" parent="."]
 
@@ -101,24 +103,24 @@ material/0 = SubResource( 3 )
 
 [node name="SKYE" type="Spatial" parent="."]
 
-[node name="SKYE" parent="SKYE" instance=ExtResource( 5 )]
+[node name="SKYE" parent="SKYE" instance=ExtResource( 2 )]
 transform = Transform( 0.0731953, 0, 0, 0, 0.0731953, 0, 0, 0, 0.0731953, 0, -0.561071, 0 )
 
 [node name="MARSHAL" type="Spatial" parent="."]
 
-[node name="MARSHAL" parent="MARSHAL" instance=ExtResource( 6 )]
+[node name="MARSHAL" parent="MARSHAL" instance=ExtResource( 3 )]
 transform = Transform( 0.0759201, 0, 0, 0, 0.0759201, 0, 0, 0, 0.0759201, 0, -0.563134, 0 )
 
 [node name="Templates" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 0 )
 
-[node name="templateX" parent="Templates" instance=ExtResource( 3 )]
+[node name="templateX" parent="Templates" instance=ExtResource( 4 )]
 transform = Transform( 8.93584e-08, 0.548478, -8.93584e-08, 0, 8.93584e-08, 0.548478, -0.548478, 8.93584e-08, -1.45583e-14, 0, 0, 0 )
 
-[node name="templateBone" parent="Templates" instance=ExtResource( 4 )]
+[node name="templateBone" parent="Templates" instance=ExtResource( 5 )]
 transform = Transform( -3.02991e-08, 0, 0.185975, 0, 0.185975, 0, -0.185975, 0, -3.02991e-08, 0, 0, 0 )
 
-[node name="templateCloud" parent="Templates" instance=ExtResource( 2 )]
+[node name="templateCloud" parent="Templates" instance=ExtResource( 6 )]
 transform = Transform( -0.31297, 0, 0, 0, -0.31297, 0, 0, 0, -0.31297, 0, -2, 4 )
 
 [node name="AudioBackground" type="AudioStreamPlayer" parent="."]
@@ -128,19 +130,19 @@ autoplay = true
 
 [node name="AudioSKYE" type="AudioStreamPlayer" parent="."]
 pause_mode = 1
-stream = ExtResource( 9 )
+stream = ExtResource( 8 )
 
 [node name="AudioMARSHAL" type="AudioStreamPlayer" parent="."]
 pause_mode = 1
-stream = ExtResource( 10 )
+stream = ExtResource( 9 )
 
 [node name="AudioBone" type="AudioStreamPlayer" parent="."]
 pause_mode = 1
-stream = ExtResource( 8 )
+stream = ExtResource( 10 )
 
 [node name="AudioX" type="AudioStreamPlayer" parent="."]
 pause_mode = 1
-stream = ExtResource( 12 )
+stream = ExtResource( 11 )
 
 [node name="countSKYE" type="Button" parent="."]
 margin_right = 250.0
